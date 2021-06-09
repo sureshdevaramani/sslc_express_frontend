@@ -58,25 +58,10 @@ export class TestComponent implements OnInit {
   posObj:any[];
   imageList:any[];
   image:any;
-  public products = [
-    {
-      id: 1,
-      imgUrl: "",
-      imgBase64Data: ""
-    },
-    {
-      id: 2,
-      imgUrl: "",
-      imgBase64Data: ""
-    },
-    {
-      id: 3,
-      imgUrl: "",
-      imgBase64Data: ""
-    }
-  ];
+  
   onFileUpdate(event, index) {
-    //console.log(index)
+    const upload = new FormData();
+    
     let img;
     let quesNo;
     let tempObj: any;
@@ -85,24 +70,29 @@ export class TestComponent implements OnInit {
     console.log(tempObj.imageData)
     
     
-    const files = event.target.files;
+    const files = event.target.files[0];
+    upload.append('first',files,files.name)
+ 
+    console.log(upload)
+    this.posObj.push(upload)
     if (files.length === 0) return;
 
     const reader = new FileReader();
 
-    reader.readAsDataURL(files[0]);
+    reader.readAsDataURL(event.target.files[0]);
+
     //console.log(reader.result)
    // reader.onload = e=>this.image = reader.result ;
     
     reader.onload = _event => {
-      this.products[index].imgBase64Data = reader.result as string;
+     // this.products[index].imgBase64Data = reader.result as string;
       this.image = reader.result as string;
      // console.log(this.image)
       tempObj.imageData = reader.result as string;
       //img=reader.result as string;
       
     };
- 
+    
     
     
     
