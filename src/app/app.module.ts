@@ -12,12 +12,20 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material-module';
 import { LoginComponent } from './Components/login/login.component';
 import { TestComponent } from './Components/test/test.component';
+import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({ 
   declarations: [
     AppComponent,
     LoginComponent,
-    TestComponent
+    TestComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,13 @@ import { TestComponent } from './Components/test/test.component';
     FlexLayoutModule,
     CommonModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
