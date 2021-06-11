@@ -1,0 +1,21 @@
+.login-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height : calc(100vh - 70px);
+
+}
+
+::ng-deep .login-container .mat-card {
+  width: 400px;
+  height: 200px;
+  margin: 20px;
+}
+.example-full-width{
+  width: 100%;
+}
+
+.button-wrapper{
+  justify-content: center;
+  display: flex;
+}

@@ -1,0 +1,52 @@
+.home-container{
+    margin: 10px;
+}
+.test-card{
+  margin-bottom: 20px;
+}
+.test-card:last-of-type{
+  margin-bottom: 0px;
+}
+.test-container{
+  display: grid;
+   grid-template-columns: auto auto;
+}
+.test-name-cost{
+  display: flex;
+  flex-direction: column;
+}
+.test-creator-purchase-details{
+  display: flex;
+  flex-direction: column;
+}
+.test-name{
+  font-weight: 600;
+}
+.test-cost{
+
+}
+.test-cost span{
+  font-weight: 600;
+}
+.test-creator{
+  font-weight: 600;
+  text-align: center;
+}
+.test-buy-now{
+  justify-content: center;
+    display: flex;
+}
+.test-attend-test{
+  justify-content: center;
+  display: flex;
+}
+.test-attended{
+  justify-content: space-around;
+  display: flex;
+}
+@media only screen and (max-width: 600px) {
+  /* .test-attended{
+    flex-direction: column;
+    display: flex;
+  } */
+}
