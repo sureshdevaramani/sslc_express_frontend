@@ -8,7 +8,8 @@ import { ImageUploadComponent } from './Components/image-upload/image-upload.com
 const routes: Routes = [
   { path: 'login', component:LoginComponent},
   { path: 'test', component:TestComponent},
-  { path: 'imageUpload', component:ImageUploadComponent}
+  { path: 'imageUpload', component:ImageUploadComponent},
+  { path: 'home', loadChildren: ()=> import('./modules/home/home.module').then(m => m.HomeModule)  }
 
 ];
 
