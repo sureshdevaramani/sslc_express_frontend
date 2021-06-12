@@ -1,5 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { eventNames } from 'process';
+import {NgxImageCompressService} from 'ngx-image-compress';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { CompressImageService } from 'src/app/Services/compress-image.service';
+import { take } from 'rxjs/operators';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UploadFilesService } from 'src/app/services/upload-files.service';
+
 
 import * as XLSX from 'xlsx';
 
@@ -12,9 +21,29 @@ type AOA = any[][];
 })
 export class TestComponent implements OnInit {
 
+  selectedFiles?: FileList;
+  progressInfos: any[] = [];
+  message: string[] = [];
+  dummFiles:any[];
   willDownload = false;
   dataString:any;
-  constructor() { }
+  image:any ;
+  theCompressed= new FormData();
+  testId:any;
+  resData:any;
+  constructor(private compressImage: CompressImageService,private http: HttpClient,private route: ActivatedRoute,
+    private router : Router,private uploadService: UploadFilesService) {}
+
+    posObj: any ={
+    "testName": "test1",
+    "organisationId": "2c9fa14079f767ab0179fee065860015",
+    "questions":[]
+
+  }
+  posObjFile: any ={
+    "imageFile": ""
+  }
+
   ngOnInit(): void {
   }
    
@@ -28,7 +57,7 @@ export class TestComponent implements OnInit {
     reader.onload = (event) => {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary' });
-      console.log(workBook)
+      //console.log(workBook)
       jsonData = workBook.SheetNames.reduce((initial,su) => {
         
         
@@ -46,7 +75,14 @@ export class TestComponent implements OnInit {
       }, {});
       
       let ques=jsonData.Suresh
-      console.log(ques)
+      this.posObj.questions=ques
+      this.http.post('http://13.59.166.115:8700/sslc-express/test/questions',this.posObj).subscribe(response=>{
+        console.log(response)
+        this.resData = response;
+        this.testId= this.resData.data;
+      })
+      //.log(this.posObj)
+      //console.log(ques)
       const dataString = JSON.stringify(jsonData);
       this.dataString = ques;
       //console.log(dataString)
@@ -55,57 +91,89 @@ export class TestComponent implements OnInit {
     }
     reader.readAsBinaryString(file);
   }
-  posObj:any[];
-  imageList:any[];
-  image:any;
   
-  onFileUpdate(event, index) {
+  onFileUpdate(event) {
+    // console.log(event.target.files[0].type)
+    // console.log(event.target.files[0].size)
     const upload = new FormData();
     
-    let img;
-    let quesNo;
-    let tempObj: any;
-    quesNo = index;
-    tempObj = {"questionNumber": quesNo,imageData:"suresh"}
-    console.log(tempObj.imageData)
-    
-    
     const files = event.target.files[0];
-    upload.append('first',files,files.name)
- 
+    
     console.log(upload)
-    this.posObj.push(upload)
+    //this.posObj.push(upload)
     if (files.length === 0) return;
+   
+    let image: File = event.target.files[0]
+    console.log(`Image size before compressed: ${image.size} bytes.`)
 
-    const reader = new FileReader();
+    this.compressImage.compress(image)
+      .pipe(take(1))
+      .subscribe(compressedImage => {
 
-    reader.readAsDataURL(event.target.files[0]);
-
-    //console.log(reader.result)
-   // reader.onload = e=>this.image = reader.result ;
-    
-    reader.onload = _event => {
-     // this.products[index].imgBase64Data = reader.result as string;
-      this.image = reader.result as string;
+        console.log(`Image size after compressed: ${compressedImage.size} bytes.`)
+       
+        const reader = new FileReader();
+        upload.append('imageFile',compressedImage,compressedImage.name)
+   
+        this.http.post('http://13.59.166.115:8700/sslc-express/test/'+this.testId+'/1/image',upload)
+        .subscribe(res=>{
+          console.log(res)
+        }) 
+         reader.readAsDataURL(compressedImage);
+         console.log(reader)
+         reader.onload = _event => {
+        this.image = reader.result 
+       // console.log(this.image)
+      };
+        // now you can do upload the compressed image 
+      })
      // console.log(this.image)
-      tempObj.imageData = reader.result as string;
-      //img=reader.result as string;
-      
-    };
-    
-    
-    
-    
+
+
+  }
+  selectFiles(event): void {
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    this.dummFiles.push(event.target.files[0])
+    console.log(this.dummFiles)
   }
 
-  setDownload(data) {
-    this.willDownload = true;
-    setTimeout(() => {
-      const el = document.querySelector("#download");
-      el.setAttribute("href", `data:text/json;charset=utf-8,${encodeURIComponent(data)}`);
-      el.setAttribute("download", 'xlsxtojson.json');
-    }, 1000)
+  uploadFiles(): void {
+    this.message = [];
+  
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.upload(i, this.selectedFiles[i]);
+      }
+    }
   }
+  upload(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+  
+    if (file) {
+      this.uploadService.upload(file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
+            this.message.push(msg);
+            //this.fileInfos = this.uploadService.getFiles();
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'Could not upload the file: ' + file.name;
+          this.message.push(msg);
+         // this.fileInfos = this.uploadService.getFiles();
+        });
+    }
+  }
+
+  
+
+
 
 
 

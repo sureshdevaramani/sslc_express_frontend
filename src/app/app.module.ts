@@ -8,16 +8,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
+import {NgxImageCompressService} from 'ngx-image-compress';
+
+//import {NgCompressSample} from './app/ng-compress-sample';
 
 import { MaterialModule } from './material-module';
 import { LoginComponent } from './Components/login/login.component';
 import { TestComponent } from './Components/test/test.component';
+import { ImageUploadComponent } from './Components/image-upload/image-upload.component';
 
 @NgModule({ 
   declarations: [
     AppComponent,
     LoginComponent,
-    TestComponent
+    TestComponent,
+    ImageUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,7 @@ import { TestComponent } from './Components/test/test.component';
     HttpClientModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
