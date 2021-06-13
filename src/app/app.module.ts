@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import {NgxImageCompressService} from 'ngx-image-compress';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 //import {NgCompressSample} from './app/ng-compress-sample';
 
@@ -23,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { TestResultComponent } from './Components/test-result/test-result.component';
 
 @NgModule({ 
   declarations: [
@@ -30,7 +32,8 @@ import { MatListModule } from '@angular/material/list';
     LoginComponent,
     TestComponent,
     ImageUploadComponent,
-    NavBarComponent
+    NavBarComponent,
+    TestResultComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MaterialFileInputModule
   ],
   providers: [NgxImageCompressService],
   bootstrap: [AppComponent]
