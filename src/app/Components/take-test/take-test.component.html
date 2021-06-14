@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+        <mat-card *ngIf="displayObj as data">
+            <div class="row">
+                <div class="col-md-2">
+        
+                </div>
+                <div class="col-md-8">
+        
+                    <div class="row">
+                        <countdown [config]="{leftTime: 61, format: 's'} " (event)="timer($event)"></countdown>
+                        <div>{{data.questionNo}}). {{data.question}}</div>
+                    </div>
+                    <br>
+                    <div class="row">
+        
+                        <!-- <img mat-card-image
+                            *ngIf="data.imageUrl"
+                            [src]="data.imageUrl"
+                            style="align-self: flex-start;margin-left: 20% ;width: 50%;height: auto;"
+                            alt="Photo of a Shiba Inu"> -->
+        
+                    </div>
+                    <div class="row">
+                        <button mat-raised-button mat-button 
+                             class="example-button-primary"
+                             (click)="optionsClicked($event)"
+                             [color]="color" >
+                            A). {{data.optionA}}
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button mat-raised-button  
+                             class="example-button"
+                             (click)="optionsClicked($event)"
+                             >
+                            B). {{data.optionB}}
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button mat-raised-button  
+                             class="example-button"
+                             (click)="optionsClicked($event)"
+                             >
+                            C). {{data.optionC}}
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button mat-raised-button  
+                             class="example-button"
+                             (click)="optionsClicked($event)"
+                             >
+                            D). {{data.optionD}}
+                        </button>
+                    </div>
+                   
+        
+                </div>
+        
+            </div>
+            <div class="row">
+                <div class="button-wrapper">
+                    <button mat-flat-button color="primary">Submit</button>
+
+                  </div>
+                 
+            </div>
+            <div class="row">
+                <div class="button-wrapper-next">
+                    <button mat-flat-button color="primary">Next</button>
+                    
+                  </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.button-wrapper{
+    justify-content: center;
+    display: flex;
+}
+
+.button-wrapper-next{
+    justify-content: right;
+    display: flex;
+}
+.display-questions{
+    justify-content: right;
+    display: flex;
+}
