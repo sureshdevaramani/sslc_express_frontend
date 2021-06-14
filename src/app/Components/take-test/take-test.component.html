@@ -11,24 +11,27 @@
                 <div class="col-md-8">
         
                     <div class="row">
-                        <countdown [config]="{leftTime: 61, format: 's'} " (event)="timer($event)"></countdown>
+                        <div *ngIf="showCounter">
+                            Timer:<countdown #countdown [config]="{leftTime: 61, format: 's'} " (event)="timer($event)"></countdown>
+                        </div>
+                        
                         <div>{{data.questionNo}}). {{data.question}}</div>
                     </div>
                     <br>
                     <div class="row">
         
-                        <!-- <img mat-card-image
-                            *ngIf="data.imageUrl"
-                            [src]="data.imageUrl"
+                        <img mat-card-image
+                            *ngIf="imageSource"
+                            [src]="imageSource"
                             style="align-self: flex-start;margin-left: 20% ;width: 50%;height: auto;"
-                            alt="Photo of a Shiba Inu"> -->
+                            alt="Photo of a Shiba Inu">
         
                     </div>
                     <div class="row">
                         <button mat-raised-button mat-button 
                              class="example-button-primary"
                              (click)="optionsClicked($event)"
-                             [color]="color" >
+                             [color]="answer=='A'?color:null" >
                             A). {{data.optionA}}
                         </button>
                     </div>
@@ -36,7 +39,7 @@
                         <button mat-raised-button  
                              class="example-button"
                              (click)="optionsClicked($event)"
-                             >
+                             [color]="answer=='B'?color:null">
                             B). {{data.optionB}}
                         </button>
                     </div>
@@ -44,7 +47,7 @@
                         <button mat-raised-button  
                              class="example-button"
                              (click)="optionsClicked($event)"
-                             >
+                             [color]="answer=='C'?color:null">
                             C). {{data.optionC}}
                         </button>
                     </div>
@@ -52,7 +55,7 @@
                         <button mat-raised-button  
                              class="example-button"
                              (click)="optionsClicked($event)"
-                             >
+                             [color]="answer=='D'?color:null">
                             D). {{data.optionD}}
                         </button>
                     </div>
@@ -63,7 +66,7 @@
             </div>
             <div class="row">
                 <div class="button-wrapper">
-                    <button mat-flat-button color="primary">Submit</button>
+                    <button mat-flat-button (click)="submit()"color="primary">Submit</button>
 
                   </div>
                  
@@ -77,3 +80,7 @@
         </mat-card>
     </div>
 </div>
+
+<!-- <br>
+<br>
+<img *ngIf="imageSource" [src]='imageSource'  /> -->
