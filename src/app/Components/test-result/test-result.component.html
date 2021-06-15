@@ -3,63 +3,6 @@
 
     </div>
     <div class="col-md-8">
-        <mat-card>
-            <div class="row">
-                <div class="col-md-1">
-        
-                </div>
-                <div class="col-md-8">
-        
-                    <div class="row">
-        
-                        <div>1). What is the sum of 10 and 20</div>
-                    </div>
-                    <br>
-                    <div class="row">
-        
-                        <img mat-card-image
-                            src="https://techboomers.com/wp-content/uploads/2017/12/sites-like-amazon-for-buying-books-h.jpg"
-                            style="align-self: flex-start;margin-left: 20% ;width: 50%;height: auto;"
-                            alt="Photo of a Shiba Inu">
-        
-                    </div>
-                    <div class="row">
-                        <button mat-raised-button matTooltip="Info about the action" matTooltipClass="example-tooltip-red"
-                            aria-label="Button that shows a red tooltip" class="example-button">
-                            A). Red-tooltip Action
-                        </button>
-                    </div>
-                    <div class="row">
-                        <button mat-raised-button matTooltip="Info about the action" matTooltipClass="example-tooltip-red"
-                            aria-label="Button that shows a red tooltip" class="example-button">
-                            B). Red-tooltip Action
-                        </button>
-                    </div>
-                    <div class="row">
-                        <button mat-raised-button matTooltip="Info about the action" matTooltipClass="example-tooltip-red"
-                            aria-label="Button that shows a red tooltip" class="example-button">
-                            C). Red-tooltip Action
-                        </button>
-                    </div>
-                    <div class="row">
-                        <button mat-raised-button matTooltip="Info about the action" matTooltipClass="example-tooltip-red"
-                            aria-label="Button that shows a red tooltip" class="example-button">
-                            D). Red-tooltip Action
-                        </button>
-                    </div>
-                    <div class="row">
-                        <button mat-raised-button matTooltip="Info about the action" matTooltipClass="example-tooltip-red"
-                            aria-label="Button that shows a red tooltip" class="example-button">
-                            Your Answer: Red-tooltip Action
-                        </button>
-                    </div>
-        
-                </div>
-        
-            </div>
-        </mat-card>
-
-
         <mat-card *ngFor="let data of displayObj">
             <div class="row">
                 <div class="col-md-1">
@@ -68,53 +11,73 @@
                 <div class="col-md-8">
         
                     <div class="row">
-        
                         <div>{{data.questionNo}}). {{data.question}}</div>
                     </div>
                     <br>
                     <div class="row">
         
                         <img mat-card-image
-                            *ngIf="data.imageUrl"
-                            [src]="data.imageUrl"
+                            *ngIf="data.image"
+                            [src]="data.image"
                             style="align-self: flex-start;margin-left: 20% ;width: 50%;height: auto;"
                             alt="Photo of a Shiba Inu">
         
                     </div>
                     <div class="row">
-                        <button mat-raised-button mat-button color="success"
+                        <button mat-raised-button mat-button 
+                            [color]="data.correctOption==data.yourAnswer && data.yourAnswer=='A'?'primary':data.correctOption!==data.yourAnswer && data.yourAnswer=='A'?'warn':null"
+                            
                              class="example-button-primary">
                             A). {{data.optionA}}
                         </button>
                     </div>
                     <div class="row">
-                        <button mat-raised-button  
+                        <button mat-raised-button 
+                        [color]="data.correctOption==data.yourAnswer && data.yourAnswer=='B'?'primary':data.correctOption!==data.yourAnswer && data.yourAnswer=='B'?'warn':null" 
                              class="example-button">
                             B). {{data.optionB}}
                         </button>
                     </div>
                     <div class="row">
-                        <button mat-raised-button  
+                        <button mat-raised-button 
+                        [color]="data.correctOption==data.yourAnswer && data.yourAnswer=='C'?'primary':data.correctOption!==data.yourAnswer && data.yourAnswer=='C'?'warn':null" 
                              class="example-button">
                             C). {{data.optionC}}
                         </button>
                     </div>
                     <div class="row">
                         <button mat-raised-button  
-                             class="example-button">
+                             class="example-button"
+                             [color]="data.correctOption==data.yourAnswer && data.yourAnswer=='D'?'primary':data.correctOption!==data.yourAnswer && data.yourAnswer=='D'?'warn':null"
+                             >
                             D). {{data.optionD}}
                         </button>
                     </div>
-                    <div class="row" style="color: red;">
+                    <div class="row">
                         <button mat-raised-button 
+                            [color]="data.status=='CORRECT'?'primary':'warn'"
                              class="example-button">
                             Your Answer: {{data.yourAnswer}}
                         </button>
                     </div>
-        
+                    
                 </div>
         
             </div>
         </mat-card>
+        <div class="row" >
+            <button mat-raised-button 
+                color='primary'
+                 class="example-button">
+                Right Answers: {{rightAns}}
+            </button>
+        </div>         
+          <div class="row" >
+            <button mat-raised-button 
+                color='warn'
+                 class="example-button">
+                Wrong Answers: {{wrognAns}}
+            </button>
+        </div>
     </div>
 </div>

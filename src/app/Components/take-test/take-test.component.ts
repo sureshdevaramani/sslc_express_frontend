@@ -16,7 +16,7 @@ export class TakeTestComponent implements OnInit {
 
   constructor(private http: HttpClient,private route: ActivatedRoute,private router : Router,private sanitizer: DomSanitizer) { }
 
-  image = 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.incimages.com%2Fuploaded_files%2Fimage%2F1920x1080%2Fgetty_655998316_2000149920009280219_363765.jpg&imgrefurl=https%3A%2F%2Fwww.inc.com%2Fchristina-desmarais%2F21-books-to-read-if-you-want-to-get-ahead-in-business-life.html&tbnid=BlUCjGvmpXjLRM&vet=12ahUKEwi5-PGggJLxAhW2ynMBHdmZAp0QMygAegUIARDQAQ..i&docid=WpfJGyIp7epdTM&w=1920&h=1080&q=books%20images&ved=2ahUKEwi5-PGggJLxAhW2ynMBHdmZAp0QMygAegUIARDQAQ';
+  
   dummyObj:any;
   resObj:any;
   displayObj: any = [

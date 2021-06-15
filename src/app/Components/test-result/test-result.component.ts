@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-test-result',
@@ -7,24 +10,90 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestResultComponent implements OnInit {
 
-  constructor() { }
-  image = 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.incimages.com%2Fuploaded_files%2Fimage%2F1920x1080%2Fgetty_655998316_2000149920009280219_363765.jpg&imgrefurl=https%3A%2F%2Fwww.inc.com%2Fchristina-desmarais%2F21-books-to-read-if-you-want-to-get-ahead-in-business-life.html&tbnid=BlUCjGvmpXjLRM&vet=12ahUKEwi5-PGggJLxAhW2ynMBHdmZAp0QMygAegUIARDQAQ..i&docid=WpfJGyIp7epdTM&w=1920&h=1080&q=books%20images&ved=2ahUKEwi5-PGggJLxAhW2ynMBHdmZAp0QMygAegUIARDQAQ';
+  constructor(private http: HttpClient,private route: ActivatedRoute,private router : Router,
+    private sanitizer: DomSanitizer) { }
 
-  displayObj: any = [
-    {
-      "questionNo":"1",
-      "question":"Who is PM of india",
-      "optionA":"Modi",
-      "optionB":"Amith Shaw",
-      "optionC":"ABC",
-      "optionD":"none of the above",
-      "rightoption":"A",
-      "imageUrl":"https://techboomers.com/wp-content/uploads/2017/12/sites-like-amazon-for-buying-books-h.jpg",
-      "yourAnswer":"Modi"
-    }
-  ]
+  resBody:any= {
+    "questionNo":"",
+    "question":"",
+    "optionA":"",
+    "optionB":"",
+    "optionC":"",
+    "optionD":"",
+    "yourAnswer":"",
+    "status":"",
+    "image":""
+  }
+  displayObj: any[] = []
+  status:any;
+  resRes:any;
+  resImg:any;
+  rightAns: number;
+  wrognAns: number;
   ngOnInit(): void {
-    console.log("HII")
+    this.http.get('http://13.59.166.115:8700//sslc-express/result?studentId=2c9f608179fe6acc0179ff3d49790003&testId=2c9fa1407a05c22e017a0bcd2f7900e7')
+    .subscribe(res=>{
+      this.rightAns = 0;
+      this.wrognAns = 0;
+      this.resRes = res;
+      console.log(this.resRes.data)
+
+      this.resRes = res;
+      // for(let i = 0; i< this.resRes.data.length;i++){
+      //   this.displayObj.push(this.resBody);
+      // }
+      console.log(this.resRes.data[0].questionSequnceNumber)
+      for(let i = 0;i< this.resRes.data.length;i++){
+        let resBody:any= {
+          "questionNo":"",
+          "question":"",
+          "optionA":"",
+          "optionB":"",
+          "optionC":"",
+          "optionD":"",
+          "yourAnswer":"",
+          "status":"",
+          "image":"",
+          "correctOption":""
+        }
+        resBody.questionNo = this.resRes.data[i].questionSequnceNumber;
+        resBody.question = this.resRes.data[i].question;
+        resBody.optionA = this.resRes.data[i].optionA;
+        resBody.optionB = this.resRes.data[i].optionB;
+        resBody.optionC = this.resRes.data[i].optionC;
+        resBody.optionD = this.resRes.data[i].optionD;
+        resBody.yourAnswer = this.resRes.data[i].answer;
+        if(resBody.yourAnswer=="undefined"){
+          resBody.yourAnswer = 'C'
+        }
+        resBody.status = this.resRes.data[i].status;
+        if(resBody.status=='CORRECT'){
+          this.rightAns = this.rightAns+1;
+        }else{
+          this.wrognAns = this.wrognAns+1;
+        }
+        resBody.correctOption = this.resRes.data[i].correctOption;
+        //console.log(resBody)
+        if(this.resRes.data[i].imageUploaded){
+          const quesId = this.resRes.data[i].questionId;
+          this.http.get('http://13.59.166.115:8700/sslc-express/image?questionId='+quesId+'')
+          .subscribe(res=>{
+            
+            this.resImg = res;
+            //console.log(this.resImg.data)
+            resBody.image = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.resImg.data.picByte}`);
+            this.displayObj.push(resBody);
+          })
+
+        }else{
+          this.displayObj.push(resBody);
+        }
+        
+        // console.log(this.displayObj)
+      }
+      console.log(this.displayObj)
+    });
+
     
   }
 

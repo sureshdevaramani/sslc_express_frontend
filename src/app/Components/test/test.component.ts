@@ -79,9 +79,10 @@ export class TestComponent implements OnInit {
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary' });
      
+
       jsonData = workBook.SheetNames.reduce((initial,su) => {
         const sheet = workBook.Sheets[su];
-       
+        
         if(i==0){
         initial[su] = XLSX.utils.sheet_to_json(sheet);
         i++;
@@ -92,25 +93,26 @@ export class TestComponent implements OnInit {
       let sheetName = workBook.SheetNames[0]
       
       let ques=jsonData[sheetName]
-      //console.log(ques)
+      console.log(jsonData)
+      console.log(ques[0].question)
       this.posObj.questions = ques;
       this.dataString = null;
-      this.http.post('http://13.59.166.115:8700/sslc-express/questions',this.posObj).subscribe(response=>{
-        console.log(response);
-        this.resData = response;
-        this.testId= this.resData.data;
+      // this.http.post('http://13.59.166.115:8700/sslc-express/questions',this.posObj).subscribe(response=>{
+      //   console.log(response);
+      //   this.resData = response;
+      //   this.testId= this.resData.data;
        
-        if(this.resData.message=="sucessful"){
-          this.dataString = ques;
-        }else{
-          console.log(JSON.parse(JSON.stringify(response)).message);
-        };
+      //   if(this.resData.message=="sucessful"){
+      //     this.dataString = ques;
+      //   }else{
+      //     console.log(JSON.parse(JSON.stringify(response)).message);
+      //   };
         
-      },error=>{
-        this.showExError = true;
-        console.log(error);
+      // },error=>{
+      //   this.showExError = true;
+      //   console.log(error);
 
-      });
+      // });
 
      // console.log(this.uploadExcel(this.posObj));
       // console.log(this.uploadExcel(this.posObj))
