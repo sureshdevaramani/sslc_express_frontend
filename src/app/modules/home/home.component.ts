@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,9 +28,35 @@ export class HomeComponent implements OnInit {
       status: "attended"
     }
   ]
-  constructor() { }
+  constructor(private http:HttpClient,private route: ActivatedRoute,private router: Router) { }
 
   ngOnInit(): void {
+
+    if(localStorage.getItem("loggedIn") != "true")
+    {
+      this.router.navigate(['login'])
+    }
+
+    var body = {
+        "studentId":"2c9f608179fe6acc0179ff3d49790003",
+        "searchPhrase":""
+    }
+    
+    this.http.put("http://localhost:8700/sslc-express/tests",body).subscribe(res=>{
+    console.log(res)
+    this.testsDetails = JSON.parse(JSON.stringify(res)).data;
+    },err=>{
+
+    })
+  }
+
+  seeResult(){
+    alert("see result")
+  }
+
+  startTest(testId){
+    console.log(testId)
+    this.router.navigate(['takeTest/'+testId])
   }
 
 }
