@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { TestResultComponent } from './Components/test-result/test-result.component';
 import { TakeTestComponent } from './Components/take-test/take-test.component';
+import { LogoutComponent } from './Components/logout/logout.component';
 
 @NgModule({ 
   declarations: [
@@ -37,7 +38,8 @@ import { TakeTestComponent } from './Components/take-test/take-test.component';
     ImageUploadComponent,
     NavBarComponent,
     TestResultComponent,
-    TakeTestComponent
+    TakeTestComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

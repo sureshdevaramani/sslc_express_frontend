@@ -11,21 +11,29 @@
       <mat-card *ngFor="let test of testsDetails" class="test-card">
         <div class="test-container">
           <div class="test-name-cost">
-            <h4 class="test-name" >{{ test.testName }}</h4>
-            <div class="test-cost"><span>Cost: </span>{{ test.cost + ' rupees' }}</div>
+            <h4 class="test-name" > <span></span>{{ test.testName }}</h4>
+            <!-- <div class="test-cost"><span>Cost: </span>{{ test.cost + ' rupees' }}</div> -->
+            <div class="test-cost"><span>Cost: </span>{{ test.cost === 0 ? 'FREE': test.cost + ' rupees' }}</div>
+
           </div>
           <div class="test-creator-purchase-details">
-              <h4 class="test-creator">{{ test.creatorName }}</h4>
-              <div [ngSwitch]="test.status">
+              <h4 class="test-creator">{{ test.creater }}</h4>
+              <div [ngSwitch]="test.testStatus">
                 <div *ngSwitchCase="'new'" class="test-buy-now">
                   <button mat-flat-button color="primary" >BUY TEST</button>
                 </div>
-                <div *ngSwitchCase="'purchased'" class="test-attend-test">
-                  <button mat-flat-button color="primary" >ATTEND TEST</button>
+                <div *ngSwitchCase="'NOT_ATTENDED'" class="test-attend-test">
+                  <button mat-flat-button color="primary"  (click) = "startTest(test.testId)" >ATTEND TEST</button>
                 </div>
-                <div *ngSwitchCase="'attended'" class="test-attended">
-                    <button mat-flat-button color="primary" >See Result</button>
-                    <button mat-flat-button color="primary" >Re-Write Test</button>
+                <div *ngSwitchCase="'NOT_PURCHASED'" class="test-attend-test">
+                  <button mat-flat-button color="primary" >PURCHASE TEST</button>
+                </div>
+                <div *ngSwitchCase="'STARTED'" class="test-attend-test">
+                  <button mat-flat-button color="primary" (click) = "startTest(test.testId)">CONTINUE</button>
+                </div>
+                <div *ngSwitchCase="'COMPLETED'" class="test-attended">
+                    <button (click) = "seeResult()" mat-flat-button color="primary" >See Result</button>
+                    <button (click) = "startTest(test.testId)" mat-flat-button color="primary" >Re-Write Test</button>
                 </div>
               </div>
           </div>

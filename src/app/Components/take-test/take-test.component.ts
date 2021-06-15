@@ -19,6 +19,7 @@ export class TakeTestComponent implements OnInit {
   
   dummyObj:any;
   resObj:any;
+  testId:string;
   displayObj: any = [
     {
       "questionNo":"",
@@ -34,14 +35,22 @@ export class TakeTestComponent implements OnInit {
   quesId:any;
   examID;any;
   resExm;
-  // posObjEx:any={
-  //   studentId":'2c9f608179fe6acc0179ff3d49790003',
-  //   testId:'2c9fa1407a05c22e017a0bbba15b00d8'
-  // }
+  posObjEx:any={
+  }
   showCounter = false;
   ngOnInit(): void {
-    
-      this.http.get('http://13.59.166.115:8700/sslc-express/question?examId=2c9fa1407a05c22e017a0beee6d20102').subscribe(res=>{
+
+
+    //get values form url 
+    this.testId = this.route.snapshot.paramMap.get('testId');
+
+    var url = 'http://localhost:8700/sslc-express/start-test?studentId='+localStorage.getItem('studentId')+'&testId='+this.testId;
+
+    this.http.post(url,this.posObjEx).subscribe(res=>{
+      if(JSON.parse(JSON.stringify(res)).success == true )
+      {
+        this.examID = JSON.parse(JSON.stringify(res)).data.examId 
+        this.http.get('http://localhost:8700/sslc-express/question?examId='+this.examID).subscribe(res=>{
       console.log(res);
       this.resObj = res;
       if(this.resObj.data == null){
@@ -78,6 +87,12 @@ export class TakeTestComponent implements OnInit {
       }
 
     })
+      }
+    },err=>{
+      console.log(err)
+    })
+    
+      
    
     
    // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${image}`);
@@ -109,9 +124,13 @@ export class TakeTestComponent implements OnInit {
   submit(){
     this.showCounter = false;
     this.imageSource = null;
-    this.http.get('http://13.59.166.115:8700//sslc-express/question?examId=2c9fa1407a05c22e017a0beee6d20102&previousQuestionId='+this.quesId+'&answer='+this.answer+'')
+    this.http.get('http://localhost:8700//sslc-express/question?examId='+this.examID+'&previousQuestionId='+this.quesId+'&answer='+this.answer+'')
     .subscribe(res=>{
-
+      if(JSON.parse(JSON.stringify(res)).data == null)
+      {
+        alert('Exam sucessfully completed , thanks for taking the exam')
+        this.router.navigate(['home'])
+      }
       this.answer=null;
       console.log(res);
       this.resObj = res;
