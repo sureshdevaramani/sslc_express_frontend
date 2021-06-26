@@ -14,7 +14,8 @@ import {CountdownComponent} from 'ngx-countdown';
 export class TakeTestComponent implements OnInit {
   @ViewChild('countdown') counter: CountdownComponent;
 
-  constructor(private http: HttpClient,private route: ActivatedRoute,private router : Router,private sanitizer: DomSanitizer) { }
+  constructor(private http: HttpClient,private route: ActivatedRoute,private router : Router,
+    private sanitizer: DomSanitizer) { }
 
   
   dummyObj:any;
@@ -40,17 +41,17 @@ export class TakeTestComponent implements OnInit {
   showCounter = false;
   ngOnInit(): void {
 
-
+    
     //get values form url 
     this.testId = this.route.snapshot.paramMap.get('testId');
 
-    var url = 'http://localhost:8700/sslc-express/start-test?studentId='+localStorage.getItem('studentId')+'&testId='+this.testId;
+    var url = 'http://13.59.166.115:8700/sslc-express/start-test?studentId='+localStorage.getItem('studentId')+'&testId='+this.testId;
 
     this.http.post(url,this.posObjEx).subscribe(res=>{
       if(JSON.parse(JSON.stringify(res)).success == true )
       {
         this.examID = JSON.parse(JSON.stringify(res)).data.examId 
-        this.http.get('http://localhost:8700/sslc-express/question?examId='+this.examID).subscribe(res=>{
+        this.http.get('http://13.59.166.115:8700/sslc-express/question?examId='+this.examID).subscribe(res=>{
       console.log(res);
       this.resObj = res;
       if(this.resObj.data == null){
@@ -124,7 +125,7 @@ export class TakeTestComponent implements OnInit {
   submit(){
     this.showCounter = false;
     this.imageSource = null;
-    this.http.get('http://localhost:8700//sslc-express/question?examId='+this.examID+'&previousQuestionId='+this.quesId+'&answer='+this.answer+'')
+    this.http.get('http://13.59.166.115:8700//sslc-express/question?examId='+this.examID+'&previousQuestionId='+this.quesId+'&answer='+this.answer+'')
     .subscribe(res=>{
       if(JSON.parse(JSON.stringify(res)).data == null)
       {

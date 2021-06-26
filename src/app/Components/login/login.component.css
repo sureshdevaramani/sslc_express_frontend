@@ -15,13 +15,15 @@
 
 ::ng-deep .login-container .mat-card {
   width: 400px;
-  height: 200px;
+  height: 210px;
   margin: 20px;
 }
 
 .example-full-width{
   width: 100%;
 }
+
+
 
 .button-wrapper{
   justify-content: center;

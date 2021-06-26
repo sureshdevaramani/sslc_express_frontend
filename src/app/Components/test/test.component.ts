@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { eventNames } from 'process';
 import {NgxImageCompressService} from 'ngx-image-compress';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { take } from 'rxjs/operators';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UploadFilesService } from 'src/app/services/upload-files.service';
+
 
 
 import * as XLSX from 'xlsx';
@@ -52,7 +53,7 @@ export class TestComponent implements OnInit {
 
   constructor(private compressImage: CompressImageService,private http: HttpClient,private route: ActivatedRoute,
     private router : Router,private uploadService: UploadFilesService) {}
-
+    @ViewChild('testName') testName: ElementRef;
     posObj: any ={
     "testName": "test1",
     "organisationId": "2c9fa1407a05c22e017a06988e520000",
@@ -76,6 +77,7 @@ export class TestComponent implements OnInit {
     let i = 0;
     
     reader.onload = (event) => {
+      console.log(this.testName)
       const data = reader.result;
       workBook = XLSX.read(data, { type: 'binary' });
      
@@ -97,22 +99,22 @@ export class TestComponent implements OnInit {
       console.log(ques[0].question)
       this.posObj.questions = ques;
       this.dataString = null;
-      // this.http.post('http://13.59.166.115:8700/sslc-express/questions',this.posObj).subscribe(response=>{
-      //   console.log(response);
-      //   this.resData = response;
-      //   this.testId= this.resData.data;
+      this.http.post('http://13.59.166.115:8700/sslc-express/questions',this.posObj).subscribe(response=>{
+        console.log(response);
+        this.resData = response;
+        this.testId= this.resData.data;
        
-      //   if(this.resData.message=="sucessful"){
-      //     this.dataString = ques;
-      //   }else{
-      //     console.log(JSON.parse(JSON.stringify(response)).message);
-      //   };
+        if(this.resData.message=="sucessful"){
+          this.dataString = ques;
+        }else{
+          console.log(JSON.parse(JSON.stringify(response)).message);
+        };
         
-      // },error=>{
-      //   this.showExError = true;
-      //   console.log(error);
+      },error=>{
+        this.showExError = true;
+        console.log(error);
 
-      // });
+      });
 
      // console.log(this.uploadExcel(this.posObj));
       // console.log(this.uploadExcel(this.posObj))

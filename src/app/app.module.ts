@@ -29,6 +29,8 @@ import { MatListModule } from '@angular/material/list';
 import { TestResultComponent } from './Components/test-result/test-result.component';
 import { TakeTestComponent } from './Components/take-test/take-test.component';
 import { LogoutComponent } from './Components/logout/logout.component';
+import { StudentRegisterComponent } from './Components/student-register/student-register.component';
+import { TestRulesComponent } from './Components/test-rules/test-rules.component';
 
 @NgModule({ 
   declarations: [
@@ -39,7 +41,9 @@ import { LogoutComponent } from './Components/logout/logout.component';
     NavBarComponent,
     TestResultComponent,
     TakeTestComponent,
-    LogoutComponent
+    LogoutComponent,
+    StudentRegisterComponent,
+    TestRulesComponent
   ],
   imports: [
     BrowserModule,

@@ -9,10 +9,11 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
 
-
+  loginRes:any;
   constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute,
     private router: Router) { }
 
@@ -27,9 +28,11 @@ export class LoginComponent implements OnInit {
       emailId: ['', Validators.email],
       password: ['', Validators.required]
 
-
-      //subjects: [this.SubjectsArray]
     })
+  }
+  register(){
+
+    this.router.navigate(['home'])
   }
   submitForm() {
     var emailId = this.myForm.get('emailId').value
@@ -40,13 +43,23 @@ export class LoginComponent implements OnInit {
       'password': password
     }
 
-    this.http.post("http://localhost:8700/sslc-express/user/login", body).subscribe(res => {
-       
+    this.http.post("http://13.59.166.115:8700/sslc-express/user/login", body).subscribe(res => {
+       console.log(res)
+       this.loginRes=res;
+
       if (JSON.parse(JSON.stringify(res)).success == true) {
-        localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.userId);
+        localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.studentId);
         localStorage.setItem("loggedIn",'true');
         this.router.navigate(['home'])
-
+        // if(this.loginRes.data.role=="student"){
+        // localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.studentId);
+        // localStorage.setItem("loggedIn",'true');
+        // this.router.navigate(['home'])
+        // }else{
+        // localStorage.setItem("organziationId",JSON.parse(JSON.stringify(res)).data.organziationId);
+        // localStorage.setItem("loggedIn",'true');
+        // this.router.navigate(['test'])
+        // }
       }
     }, err => {
       console.log(err);

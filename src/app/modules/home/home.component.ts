@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
+    console.log(this.router.url);
     if(localStorage.getItem("loggedIn") != "true")
     {
       this.router.navigate(['login'])
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit {
         "searchPhrase":""
     }
     
-    this.http.put("http://localhost:8700/sslc-express/tests",body).subscribe(res=>{
+    this.http.put("http://13.59.166.115:8700/sslc-express/tests",body).subscribe(res=>{
     console.log(res)
     this.testsDetails = JSON.parse(JSON.stringify(res)).data;
     },err=>{
@@ -55,8 +56,8 @@ export class HomeComponent implements OnInit {
   }
 
   startTest(testId){
-    console.log(testId)
-    this.router.navigate(['takeTest/'+testId])
+   // console.log(testId)
+    this.router.navigate(['rules/'+testId])
   }
 
 }

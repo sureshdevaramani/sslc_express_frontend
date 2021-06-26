@@ -1,0 +1,48 @@
+<div class="body">
+    <div class="register-container">
+        <mat-card>
+            <form [formGroup]="myForm" (ngSubmit)="submitForm()" novalidate>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput placeholder="Name" formControlName="name" type="text">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>EmailID</mat-label>
+                  <input matInput placeholder="EmailID" formControlName="emailId" type="email">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput placeholder="Phone Number" formControlName="phoneNumber" type="text">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>School</mat-label>
+                  <input matInput placeholder="School" formControlName="school" type="text">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>State</mat-label>
+                  <input matInput placeholder="State" formControlName="state" type="text">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="example-full-width">
+                  <mat-label>Pin-Code</mat-label>
+                  <input matInput placeholder="Pin-Code" formControlName="pinCode" type="text">
+                </mat-form-field>
+              </div>
+              <div class="button-wrapper">
+                <button mat-flat-button color="primary">Submit</button>
+              </div>
+              
+            </form>
+          </mat-card>
+    </div>
+</div>

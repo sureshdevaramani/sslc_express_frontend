@@ -1,0 +1,32 @@
+.body{
+    width: 100%;
+    height: 100vh;
+    /* background-color: red; */
+    background : url('../../../assets/bg1.jpg');
+  }
+  
+  .register-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height : calc(100vh - 70px);
+  
+  }
+  
+  ::ng-deep .register-container .mat-card {
+    width: 400px;
+    height: 520px;
+    margin: 20px;
+  }
+  
+  .example-full-width{
+    width: 100%;
+  }
+  
+  
+  
+  .button-wrapper{
+    justify-content: center;
+    display: flex;
+  } 
+  
