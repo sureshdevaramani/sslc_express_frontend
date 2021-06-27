@@ -14,12 +14,44 @@ export class StudentRegisterComponent implements OnInit {
   constructor(public fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute,
     private router: Router) { }
   myForm: FormGroup;
+  regiRes:any;
 
   ngOnInit(): void {
     this.reactiveForm();
   }
   submitForm(){
-    console.log("Hii");
+    //console.log(this.myForm);
+
+    var emailId = this.myForm.get('emailId').value;
+    var userName = this.myForm.get('name').value;
+    var contactNumber = this.myForm.get('phoneNumber').value;
+    var instituationName = this.myForm.get('schoolName').value;
+    var state = this.myForm.get('state').value;
+    var pinCode = this.myForm.get('pinCode').value;
+ 
+    var body = {
+      "userName":userName,
+      "emailId":emailId,
+      "instituationName":instituationName,
+      "contactNumber":contactNumber,
+      "state":state,
+      "pincode":pinCode
+    }
+    this.http.post('http://13.59.166.115:8700/sslc-express/user',body)
+    .subscribe(res=>{
+      console.log(res)
+      this.regiRes = res;
+      if(this.regiRes.success){
+        alert("User Registerted Successfully!!!");
+        this.router.navigate(['login'])
+      }
+       
+     
+    },err=>{
+      alert("User Details("+this.myForm.get('emailId').value+") Already Exsist")
+      this.router.navigate(['studentRegister'])
+    })
+
   }
   reactiveForm() {
     this.myForm = this.fb.group({
@@ -27,7 +59,7 @@ export class StudentRegisterComponent implements OnInit {
       password: ['', Validators.required],
       name:['',Validators.required],
       phoneNumber:['',Validators.required],
-      school:['',Validators.required],
+      schoolName:['',Validators.required],
       state:['',Validators.required],
       pinCode:['',Validators.required]
     })

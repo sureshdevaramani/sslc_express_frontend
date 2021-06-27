@@ -34,7 +34,7 @@ export class NavBarComponent implements OnChanges {
   }
 
   ngOnChanges(change: SimpleChanges){
-    console.log(change)
+    console.log(change.showLogout)
     this.isLoggedIn = localStorage.getItem('loggedIn')
     this.showLogout = this.isLoggedIn=="false"?false:true;
   }

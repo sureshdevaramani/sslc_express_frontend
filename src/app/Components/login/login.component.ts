@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
   register(){
 
-    this.router.navigate(['home'])
+    this.router.navigate(['studentRegister'])
   }
   submitForm() {
     var emailId = this.myForm.get('emailId').value
