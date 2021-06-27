@@ -20,7 +20,7 @@ export class StudentRegisterComponent implements OnInit {
     this.reactiveForm();
   }
   submitForm(){
-    //console.log(this.myForm);
+    console.log(this.myForm);
 
     var emailId = this.myForm.get('emailId').value;
     var userName = this.myForm.get('name').value;
@@ -63,7 +63,7 @@ export class StudentRegisterComponent implements OnInit {
   reactiveForm() {
     this.myForm = this.fb.group({
       emailId: ['', Validators.email],
-      password: ['', Validators.required],
+      
       name:['',Validators.required],
       phoneNumber:['',Validators.required],
       schoolName:['',Validators.required],

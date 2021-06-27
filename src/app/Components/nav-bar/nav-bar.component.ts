@@ -13,7 +13,7 @@ export class NavBarComponent implements OnChanges {
 
   isLoggedIn = localStorage.getItem('loggedIn')
   
-  showLogout = this.isLoggedIn=="true"?true:false;
+  //showLogout = this.isLoggedIn=="true"?true:false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -25,7 +25,7 @@ export class NavBarComponent implements OnChanges {
   ngOnInit(){
     console.log(this.router.url);
     console.log(this.isLoggedIn);
-    console.log(this.showLogout);
+   // console.log(this.showLogout);
     // if(this.isLoggedIn == "false"){
     //   this.showLogout = false;
     // }else{
@@ -36,7 +36,7 @@ export class NavBarComponent implements OnChanges {
   ngOnChanges(change: SimpleChanges){
     console.log(change.showLogout)
     this.isLoggedIn = localStorage.getItem('loggedIn')
-    this.showLogout = this.isLoggedIn=="false"?false:true;
+   // this.showLogout = this.isLoggedIn=="false"?false:true;
   }
 
 }
