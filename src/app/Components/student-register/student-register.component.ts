@@ -37,6 +37,7 @@ export class StudentRegisterComponent implements OnInit {
       "state":state,
       "pincode":pinCode
     }
+    if(this.myForm.valid){
     this.http.post('http://13.59.166.115:8700/sslc-express/user',body)
     .subscribe(res=>{
       console.log(res)
@@ -51,6 +52,12 @@ export class StudentRegisterComponent implements OnInit {
       alert("User Details("+this.myForm.get('emailId').value+") Already Exsist")
       this.router.navigate(['studentRegister'])
     })
+  }
+  else{
+    this.myForm.reset();
+    alert("All Fields are Mandatory!!!")
+    
+  }
 
   }
   reactiveForm() {
