@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       'password': password
     }
 
-    this.http.post("http://13.59.166.115:8700/sslc-express/user/login", body).subscribe(res => {
+    this.http.post("http://13.59.166.115:8700/sslc-express/login", body).subscribe(res => {
        console.log(res)
        this.loginRes=res;
 
@@ -51,15 +51,15 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.studentId);
         localStorage.setItem("loggedIn",'true');
         this.router.navigate(['home'])
-        // if(this.loginRes.data.role=="student"){
-        // localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.studentId);
-        // localStorage.setItem("loggedIn",'true');
-        // this.router.navigate(['home'])
-        // }else{
-        // localStorage.setItem("organziationId",JSON.parse(JSON.stringify(res)).data.organziationId);
-        // localStorage.setItem("loggedIn",'true');
-        // this.router.navigate(['test'])
-        // }
+        if(this.loginRes.data.role=="student"){
+        localStorage.setItem("studentId",JSON.parse(JSON.stringify(res)).data.studentId);
+        localStorage.setItem("loggedIn",'true');
+        this.router.navigate(['home'])
+        }else{
+        localStorage.setItem("organziationId",JSON.parse(JSON.stringify(res)).data.organziationId);
+        localStorage.setItem("loggedIn",'true');
+        this.router.navigate(['test'])
+        }
       }
     }, err => {
       console.log(err);
